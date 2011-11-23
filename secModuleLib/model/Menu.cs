@@ -21,8 +21,8 @@ namespace lib.model
     [TableName("Menus")]
     public class Menu
     {
-        
-        [MapField("id")]
+
+        [MapField("id"), PrimaryKey, NonUpdatable]
         public int Id { get; set; }
 
         [MapField("path")]

@@ -21,10 +21,12 @@ namespace lib.model
     [TableName("Menus_Roles")]
     public class MenuRole
     {
-        [MapField("id")]
+        [MapField("id"), PrimaryKey, NonUpdatable]
         public int Id { get; set; }
+
         [MapField("menu_id")]
         public int MenuId { get; set; }
+
         [MapField("role_id")]
         public int RoleId { get; set; }
     }

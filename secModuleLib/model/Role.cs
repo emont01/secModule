@@ -21,7 +21,7 @@ namespace lib.model
     [TableName("Roles")]
     public class Role
     {
-        [MapField("id")]
+        [MapField("id"), PrimaryKey, NonUpdatable]
         public int Id { get; set; }
 
         [MapField("name")]

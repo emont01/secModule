@@ -14,11 +14,20 @@ See the License for the specific language governing permissions and
    limitations under the License.
 **/
 using BLToolkit.DataAccess;
+using BLToolkit.Mapping;
 
 namespace lib.model
 {
     [TableName("Users_Roles")]
     public class UserRole
     {
+        [MapField("id"), PrimaryKey, NonUpdatable]
+        public int Id { get; set; }
+
+        [MapField("user_id")]
+        public int UserId { get; set; }
+
+        [MapField("role_id")]
+        public int RoleId { get; set; }
     }
 }

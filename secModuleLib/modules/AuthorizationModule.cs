@@ -22,7 +22,7 @@ using lib.dal;
 using lib.model;
 using BLToolkit.Data;
 
-namespace test
+namespace lib.modules
 {
 
     public class AuthorizationModule : IHttpModule

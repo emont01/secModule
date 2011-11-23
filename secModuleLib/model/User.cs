@@ -15,13 +15,14 @@ See the License for the specific language governing permissions and
 **/
 using BLToolkit.DataAccess;
 using BLToolkit.Mapping;
+using System;
 
 namespace lib.model
 {
     [TableName("Users")]
     public class User
     {
-        [MapField("id")]
+        [MapField("id"), PrimaryKey, NonUpdatable]
         public int Id { get; set; }
 
         [MapField("name")]
@@ -35,5 +36,11 @@ namespace lib.model
         
         [MapField("password")]
         public string Password { get; set; }
+
+        [MapField("created_at")]
+        public DateTime CreatedAt { get; set; }
+
+        [MapField("blocked")]
+        public bool Blocked { get; set; }
     }
 }
