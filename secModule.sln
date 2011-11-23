@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "secModuleLib", "secModuleLib\secModuleLib.csproj", "{1A9F56A3-F457-4BF6-8980-032CD1277E60}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "secModule", "secModule\secModule.csproj", "{66B33728-932B-4FF7-876F-E7B80723F711}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1A9F56A3-F457-4BF6-8980-032CD1277E60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A9F56A3-F457-4BF6-8980-032CD1277E60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A9F56A3-F457-4BF6-8980-032CD1277E60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A9F56A3-F457-4BF6-8980-032CD1277E60}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66B33728-932B-4FF7-876F-E7B80723F711}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66B33728-932B-4FF7-876F-E7B80723F711}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66B33728-932B-4FF7-876F-E7B80723F711}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66B33728-932B-4FF7-876F-E7B80723F711}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
