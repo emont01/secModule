@@ -41,6 +41,10 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -53,6 +57,7 @@
   <ItemGroup>
     <Compile Include="AuthorizationModule.cs" />
     <Content Include="CodeFile1.cs" />
+    <Compile Include="dal\SecurityDAO.cs" />
     <Compile Include="model\Menu.cs" />
     <Compile Include="model\MenuRole.cs" />
     <Compile Include="model\Role.cs" />

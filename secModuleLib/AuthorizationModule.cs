@@ -17,13 +17,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Security;
+using lib.dal;
+using lib.model;
+using BLToolkit.Data;
 
 namespace test
 {
-    /*
+
     public class AuthorizationModule : IHttpModule
     {
-
         public void Init(HttpApplication application)
         {
             application.AuthorizeRequest += new EventHandler(authorize);
@@ -33,16 +36,16 @@ namespace test
         {
             HttpApplication application = (HttpApplication)sender;
 
-            if (SecurityUtil.existValidUser())
+            if (existValidUser())
             {
-                using (DbManager db = new DbManager(SettingsUtil.getWebSetting(SettingsUtil.ENVIRONMENT)))
+                using (SecurityDAO secDAO = new SecurityDAO())
                 {
-                    Menu menu = Menu.readByPath(db, WebAppUtil.removeVirtualPathAndConvertToLowerCase(application.Request.Path));
+                    Menu menu = secDAO.getMenuByPath(getVirtualPathAsLowerCase(application));
                     if (menu != null)
                     {
-                        foreach (Role menuRole in menu.getMenuRoles(db))
+                        foreach (Role menuRole in secDAO.getRolesFor(menu))
                         {
-                            if (!application.User.IsInRole(menuRole.Nombre))
+                            if (!userIsInRole(application, menuRole))
                             {
                                 throw new HttpException(401, "UnAuthorized access to " + application.Request.Path);
                             }
@@ -52,17 +55,53 @@ namespace test
             }
         }
 
-        private Menu readByPath()
+        private bool userIsInRole(HttpApplication application, Role menuRole)
         {
-            return db.SetCommand("SELECT M.* FROM SEGURIDAD_MENU M WHERE LOWER(URL) = LOWER(@path) and LOWER(APLICACION) = LOWER(@app)",
-                db.Parameter("@path", path),
-                db.Parameter("@app", SettingsUtil.getWebSetting(SettingsUtil.APPLICATION_NAME)))
-                .ExecuteObject<Menu>();
+            return application.User.IsInRole(menuRole.Name);
         }
 
+        private string getVirtualPathAsLowerCase(HttpApplication application)
+        {
+            return WebAppUtil.removeVirtualPathAndConvertToLowerCase(application.Request.Path);
+        }
+
+        private bool existValidUser()
+        {
+            return HttpContext.Current.User != null &&
+                HttpContext.Current.User.Identity.IsAuthenticated &&
+                HttpContext.Current.User.Identity.GetType() == typeof(FormsIdentity);
+        }
+        
         public void Dispose()
         {
         }
     }
-    */
+
+    public sealed class WebAppUtil
+    {
+
+        public static string removeVirtualPathAndConvertToLowerCase(string requestPath)
+        {
+            string virtualPath = getAppVirtualPathAsLowerCase();
+            //requestPath in lower case
+            requestPath = requestPath.ToLower();
+            if (requestPath.StartsWith(virtualPath))
+            {
+                requestPath = requestPath.Remove(0, virtualPath.Length);
+            }
+            return requestPath;
+        }
+
+        public static string getAppVirtualPath()
+        {
+            string virtualPath = HttpRuntime.AppDomainAppVirtualPath;
+            //if there is no vitual path return root or append / to path ( {virtualPath}/ )
+            return virtualPath.Equals("/") ? virtualPath : virtualPath + "/";
+        }
+
+        public static string getAppVirtualPathAsLowerCase()
+        {
+            return getAppVirtualPath().ToLower();
+        }
+    }
 }

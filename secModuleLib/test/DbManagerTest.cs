@@ -24,11 +24,22 @@ namespace test
     [TestFixture]
     public class DbManagerTest
     {
-        [Test]
-        public void DBConnectionTest()
-        {
+        const string DB_NAME = "secModule";
 
-            using (DbManager db = new DbManager("secModule"))
+        [Test]
+        public void connectByNameTest()
+        {
+            using (DbManager db = new DbManager(DB_NAME))
+            {
+                Assert.AreEqual(ConnectionState.Open, db.Connection.State);
+            }
+        }
+
+        [Test]
+        public void defaultConnectionTest()
+        {
+            Assert.AreEqual(DB_NAME, DbManager.DefaultConfiguration);
+            using (DbManager db = new DbManager())
             {
                 Assert.AreEqual(ConnectionState.Open, db.Connection.State);
             }
