@@ -95,7 +95,7 @@ namespace lib.modules
         public static string getAppVirtualPath()
         {
             string virtualPath = HttpRuntime.AppDomainAppVirtualPath;
-            //if there is no vitual path return root or append / to path ( {virtualPath}/ )
+            //if there is no vitual path return /(root) or append / to path (${virtualPath}/)
             return virtualPath.Equals("/") ? virtualPath : virtualPath + "/";
         }
 

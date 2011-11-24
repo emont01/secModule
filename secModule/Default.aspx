@@ -1,7 +1,7 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="test._Default"
+﻿
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="test._Default"
     MasterPageFile="~/Template.Master" %>
-
-<!--
+<%-- 
 Copyright 2011 Eivar Montenegro <e.mont01@gmail.com>
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,10 +15,11 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
    limitations under the License.
--->
+--%>
+<asp:Content ContentPlaceHolderID="menu" runat="server">
+
+</asp:Content>
 <asp:Content ContentPlaceHolderID="content" runat="server">
-    <h1>
-        Wellcome</h1>
     <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus vitae accumsan
         lectus. Vivamus suscipit feugiat pulvinar. Nullam sed tellus sed augue ultrices
