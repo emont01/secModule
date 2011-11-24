@@ -14,13 +14,11 @@ See the License for the specific language governing permissions and
    limitations under the License.
 **/
 using System;
-using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
-using System.Text;
 using System.Web.Security;
 using lib.dal;
 using lib.model;
-using System.Collections.Specialized;
 
 namespace lib.providers
 {
@@ -51,15 +49,15 @@ namespace lib.providers
 
         }
 
-        public override void AddUsersToRoles(string[] usernames, string[] roleNames)
+        public override void AddUsersToRoles(string[] userNames, string[] roleNames)
         {
             validateRolesExists(roleNames);
 
-            validateUsersDoNotHaveRolesAllready(usernames, roleNames);
+            validateUsersDoNotHaveRolesAllready(userNames, roleNames);
 
             using (SecurityDAO secDAO = new SecurityDAO())
             {
-                foreach (string username in usernames)
+                foreach (string username in userNames)
                 {
                     foreach (string rolename in roleNames)
                     {
@@ -69,17 +67,17 @@ namespace lib.providers
             }
         }
 
-        private void validateUsersDoNotHaveRolesAllready(string[] usernames, string[] roleNames)
+        private void validateUsersDoNotHaveRolesAllready(string[] userNames, string[] roleNames)
         {
-            foreach (string username in usernames)
+            foreach (string userName in userNames)
             {
-                if (username.Contains(","))
+                if (userName.Contains(","))
                 {
                     throw new ArgumentException("User names cannot contain commas.");
                 }
-                foreach (string rolename in roleNames)
+                foreach (string roleName in roleNames)
                 {
-                    if (IsUserInRole(username, rolename))
+                    if (IsUserInRole(userName, roleName))
                     {
                         throw new InvalidOperationException("User is already in role");
                     }
@@ -139,7 +137,7 @@ namespace lib.providers
         {
             using (SecurityDAO secDAO = new SecurityDAO())
             {
-                return secDAO.listUsersNamesByRole(roleName).ToArray();
+                return secDAO.listUserNamesByRole(roleName).ToArray();
             }
         }
 
@@ -151,29 +149,29 @@ namespace lib.providers
             }
         }
 
-        public override bool IsUserInRole(string username, string rolename)
+        public override bool IsUserInRole(string userName, string roleName)
         {
             using (SecurityDAO dao = new SecurityDAO())
             {
-                return dao.isUserInRole(username, rolename);
+                return dao.isUserInRole(userName, roleName);
             }
         }
 
-        public override void RemoveUsersFromRoles(string[] usernames, string[] roleNames)
+        public override void RemoveUsersFromRoles(string[] userNames, string[] roleNames)
         {
-            foreach (string rolename in roleNames)
+            foreach (string roleName in roleNames)
             {
-                if (!RoleExists(rolename))
+                if (!RoleExists(roleName))
                 {
                     throw new InvalidOperationException("Role name not found");
                 }
             }
 
-            foreach (string username in usernames)
+            foreach (string userName in userNames)
             {
-                foreach (string rolename in roleNames)
+                foreach (string roleName in roleNames)
                 {
-                    if (!IsUserInRole(username, rolename))
+                    if (!IsUserInRole(userName, roleName))
                     {
                         throw new InvalidOperationException("User is not in role");
                     }
@@ -182,29 +180,29 @@ namespace lib.providers
 
             using (SecurityDAO dao = new SecurityDAO())
             {
-                foreach (string username in usernames)
+                foreach (string userName in userNames)
                 {
-                    foreach (string rolename in roleNames)
+                    foreach (string roleName in roleNames)
                     {
-                        dao.removeUserFromRole(username, rolename);
+                        dao.removeUserFromRole(userName, roleName);
                     }
                 }
             }
         }
 
-        public override string[] GetRolesForUser(string username)
+        public override string[] GetRolesForUser(string userName)
         {
             using (SecurityDAO dao = new SecurityDAO())
             {
-                return dao.listRolesByUser(dao.readUserByName(username));
+                return dao.listRoleNamesByUser(userName).ToArray();
             }
         }
 
-        public override string[] FindUsersInRole(string roleName, string usernameToMatch)
+        public override string[] FindUsersInRole(string roleName, string userNameToMatch)
         {
             using (SecurityDAO dao = new SecurityDAO())
             {
-                return null;
+                return dao.listUserNamesByRoleAndName(roleName, userNameToMatch).ToArray();
             }
         }
 
@@ -212,7 +210,7 @@ namespace lib.providers
         {
             using (SecurityDAO dao = new SecurityDAO())
             {
-                return dao.listAllRolesNames();
+                return dao.listAllRolesNames().ToArray();
             }
         }
     }

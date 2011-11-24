@@ -49,12 +49,12 @@ namespace lib.dal
                 WHERE Menus.id =@menu_id", dbManager.Parameter("@menu_id", menu.Id)).ExecuteList<Role>();
         }
 
-        internal User readUserByName(string username)
+        internal User readUserByName(string userName)
         {
             return dbManager.SetCommand(
                 @"SELECT [id],[name],[email],[salt],[password],[created_at] 
                 FROM [Users] WHERE name like @user_name",
-                dbManager.Parameter("@user_name", username)).ExecuteObject<User>();
+                dbManager.Parameter("@user_name", userName)).ExecuteObject<User>();
         }
 
         internal User readUserById(int userId)
@@ -82,7 +82,7 @@ namespace lib.dal
             userAccessor.Update(user);
         }
 
-        internal IList<User> listUsersByName(string usernameToMatch, int pageIndex, int pageSize)
+        internal IList<User> listUsersByName(string userNameToMatch, int pageIndex, int pageSize)
         {
             int offset = pageIndex * pageSize;
             int limit = offset + pageSize;
@@ -92,26 +92,26 @@ namespace lib.dal
                               WHERE row_num >= @offset AND row_num < @limit AND name LIKE @user_name",
                           dbManager.Parameter("@offset", offset), 
                           dbManager.Parameter("@limit", limit),
-                          dbManager.Parameter("@user_name", usernameToMatch)).ExecuteScalarList<User>();
+                          dbManager.Parameter("@user_name", userNameToMatch)).ExecuteScalarList<User>();
             return users;
         }
 
-        internal Role readRoleByName(string rolename)
+        internal Role readRoleByName(string roleName)
         {
             Role role = dbManager.SetCommand(@"SELECT [id],[name],[description] 
                 FROM dbo.[Roles] WHERE [name] like @role_name",
-                dbManager.Parameter("@role_name", rolename)).ExecuteObject<Role>();
+                dbManager.Parameter("@role_name", roleName)).ExecuteObject<Role>();
             return role;
         }
 
-        internal void assignRoleToUser(string rolename, string username)
+        internal void assignRoleToUser(string roleName, string userName)
         {
-            User user = readUserByName(username);
-            Role role = readRoleByName(rolename);
+            User user = readUserByName(userName);
+            Role role = readRoleByName(roleName);
             UserRole userRole = new UserRole();
             userRole.RoleId = role.Id;
             userRole.UserId = user.Id;
-            userRoleAccessor.Update(userRole);
+            userRoleAccessor.Insert(userRole);
         }
 
         internal void createRole(Role role)
@@ -121,38 +121,77 @@ namespace lib.dal
 
         internal void deleteRole(Role role)
         {
-            throw new NotImplementedException();
+            roleAccessor.Delete(role);
         }
 
         internal IList<User> listUsersByRole(string roleName)
         {
-            throw new NotImplementedException();
+            return dbManager.SetCommand(@"SELECT Users.*
+                FROM Users 
+                INNER JOIN Users_Roles ON Users.id = Users_Roles.user_id
+                INNER JOIN Roles ON Roles.id = Users_Roles.role_id 
+                WHERE Roles.name like @role_name",
+                dbManager.Parameter("@role_name", roleName)).ExecuteList<User>();
         }
 
-        internal IList<string> listUsersNamesByRole(string roleName)
+        internal IList<string> listUserNamesByRole(string roleName)
         {
-            throw new NotImplementedException();
+            return dbManager.SetCommand(@"SELECT Users.name
+                FROM Users 
+                INNER JOIN Users_Roles ON Users.id = Users_Roles.user_id
+                INNER JOIN Roles ON Roles.id = Users_Roles.role_id 
+                WHERE Roles.name like @role_name",
+                dbManager.Parameter("@role_name", roleName)).ExecuteScalarList<string>();
         }
 
-        internal bool isUserInRole(string username, string rolename)
+        internal bool isUserInRole(string userName, string roleName)
         {
-            throw new NotImplementedException();
+
+            Int32 count = dbManager.SetCommand(@"SELECT count(Users.id)
+                FROM Users 
+                INNER JOIN Users_Roles ON Users.id = Users_Roles.user_id
+                INNER JOIN Roles ON Roles.id = Users_Roles.role_id 
+                WHERE Roles.name like @role_name AND Users.name like @user_name",
+                dbManager.Parameter("@role_name", roleName),
+                dbManager.Parameter("@user_name", userName)).ExecuteScalar<Int32>();
+            return count > 0;
         }
 
-        internal void removeUserFromRole(string username, string rolename)
+        internal void removeUserFromRole(string userName, string roleName)
         {
-            throw new NotImplementedException();
+            User user = readUserByName(userName);
+            Role role = readRoleByName(roleName);
+            dbManager.SetCommand("DELETE FROM Users_Roles WHERE user_id = @user_id and role_id = @role_id",
+                dbManager.Parameter("@user_id", user.Id), dbManager.Parameter("@role_id", role.Id))
+                .ExecuteNonQuery();
         }
 
 
-        internal string[] listRolesByUser(User user)
+        internal IList<string> listRoleNamesByUser(string userName)
         {
-            throw new NotImplementedException();
+            return dbManager.SetCommand(@"SELECT Roles.*
+                FROM Roles 
+                INNER JOIN Users_Roles ON Roles.id = Users_Roles.role_id
+                INNER JOIN Users ON Users.id = Users_Roles.user_id
+                WHERE Users.name like @user_name",
+                dbManager.Parameter("@user_name", userName)).ExecuteScalarList<string>();
         }
 
-        internal string[] listAllRolesNames()
+        internal IList<string> listUserNamesByRoleAndName(string roleName, string userNameToMatch)
         {
-            throw new NotImplementedException();
+            return dbManager.SetCommand(@"SELECT Users.name
+                FROM Users 
+                INNER JOIN Users_Roles ON Users.id = Users_Roles.user_id
+                INNER JOIN Roles ON Roles.id = Users_Roles.role_id 
+                WHERE Roles.name like @role_name AND Users.name like @user_name",
+                dbManager.Parameter("@role_name", roleName),
+                dbManager.Parameter("@user_name", userNameToMatch)).ExecuteScalarList<string>();
         }
+
+        internal IList<string> listAllRolesNames()
+        {
+            return dbManager.SetCommand("SELECT name FROM Roles").ExecuteScalarList<string>();
+        }
+
     }
 }

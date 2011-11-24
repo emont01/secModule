@@ -15,18 +15,13 @@ See the License for the specific language governing permissions and
 **/
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Runtime.Remoting.Contexts;
-using System.Web.Security;
-using System.Security.Principal;
 using System.Collections.Specialized;
-using System.Web.Configuration;
 using System.Configuration;
+using System.Runtime.Remoting.Contexts;
+using System.Web.Configuration;
+using System.Web.Security;
 using lib.dal;
 using lib.model;
-using BLToolkit.DataAccess;
-using BLToolkit.Data;
 
 namespace lib.providers
 {
