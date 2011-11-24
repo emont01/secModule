@@ -16,11 +16,8 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
    limitations under the License.
 --%>
-<asp:Content ID="Content1" ContentPlaceHolderID="menu" runat="server">
-
-</asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="content" runat="server">
-    <h2>Wellcom to the private section</h2>
+    <h2>Private section</h2>
     <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus vitae accumsan
         lectus. Vivamus suscipit feugiat pulvinar. Nullam sed tellus sed augue ultrices

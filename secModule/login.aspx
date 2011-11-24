@@ -16,9 +16,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
    limitations under the License.
 --%>
-<asp:Content ID="Content2" ContentPlaceHolderID="menu" runat="server">
-
-</asp:Content>
 <asp:Content ID="Content1" ContentPlaceHolderID="content" runat="server">
     <asp:LoginView runat="server">
         <AnonymousTemplate>
@@ -26,7 +23,7 @@ See the License for the specific language governing permissions and
             </asp:Login>
         </AnonymousTemplate>
         <LoggedInTemplate>
-            Wellcome back!
+            Glad you are back!
         </LoggedInTemplate>
     </asp:LoginView>
 </asp:Content>

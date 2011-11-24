@@ -20,22 +20,41 @@ See the License for the specific language governing permissions and
     <title>Authorization Module</title>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
+    <style type="text/css">
+    span.menu
+    {
+        display:inline;
+        width: 100px;
+        border: 1px solid #CCCCCC;
+    }
+    </style>
 </head>
 <body>
     <form id="form1" runat="server">
-    <asp:LoginView runat="server">
-        <LoggedInTemplate>
-            <div>
+    <div>
+        <asp:LoginView runat="server">
+            <LoggedInTemplate>
                 <asp:ContentPlaceHolder ID="menu" runat="server">
                 </asp:ContentPlaceHolder>
-            </div>
-        </LoggedInTemplate>
-    </asp:LoginView>
-    <h3>
-        Wellcome
-        <asp:LoginName runat="server" />
-        <asp:LoginStatus runat="server" />
-    </h3>
+                <span class="menu"><a href="/Default.aspx">Home</a></span>
+                <span class="menu"><a href="/_private/home.aspx">Private Section</a></span>
+            </LoggedInTemplate>
+        </asp:LoginView>
+        <span>&nbsp;&nbsp;</span>
+        <span ><b>Wellcome</b> <i>
+            <asp:LoginView runat="server">
+                <AnonymousTemplate>
+                    Guest</AnonymousTemplate>
+                <LoggedInTemplate>
+                    <asp:LoginName runat="server" />
+                </LoggedInTemplate>
+            </asp:LoginView>
+        </i>
+        </span>
+        <span >
+            <asp:LoginStatus runat="server" />
+        </span>
+    </div>
     <div>
         <asp:ContentPlaceHolder ID="content" runat="server">
         </asp:ContentPlaceHolder>
