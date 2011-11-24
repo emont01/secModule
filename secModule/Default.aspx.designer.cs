@@ -8,9 +8,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace test {
+namespace web {
     
     
-    public partial class _Default {
+    public partial class DefaultPage {
     }
 }

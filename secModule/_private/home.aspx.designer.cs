@@ -8,9 +8,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace web.@private {
+namespace web {
     
     
-    public partial class home {
+    public partial class HomePage {
     }
 }

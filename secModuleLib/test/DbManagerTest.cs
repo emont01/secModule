@@ -19,7 +19,7 @@ using NUnit.Framework;
 using BLToolkit.Data;
 
 
-namespace test
+namespace web
 {
     [TestFixture]
     public class DbManagerTest

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace test {
+namespace web {
     
     
     public partial class Template {

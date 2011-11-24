@@ -1,4 +1,4 @@
-﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Template.master.cs" Inherits="test.Template" %>
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Template.master.cs" Inherits="web.Template" %>
 
 <!--
 Copyright 2011 Eivar Montenegro <e.mont01@gmail.com>

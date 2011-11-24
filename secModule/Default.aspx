@@ -1,5 +1,5 @@
 ﻿
-<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="test._Default"
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="web.DefaultPage"
     MasterPageFile="~/Template.Master" %>
 <%-- 
 Copyright 2011 Eivar Montenegro <e.mont01@gmail.com>

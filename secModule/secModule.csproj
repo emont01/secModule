@@ -71,10 +71,11 @@
     <Compile Include="login.aspx.designer.cs">
       <DependentUpon>login.aspx</DependentUpon>
     </Compile>
-    <Compile Include="private\home.aspx.cs">
+    <Compile Include="_private\home.aspx.cs">
       <DependentUpon>home.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="private\home.aspx.designer.cs">
+    <Compile Include="_private\home.aspx.designer.cs">
       <DependentUpon>home.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -103,7 +104,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="login.aspx" />
-    <Content Include="private\home.aspx" />
+    <Content Include="_private\home.aspx" />
     <Content Include="WebAppSettings.config" />
   </ItemGroup>
   <ItemGroup>

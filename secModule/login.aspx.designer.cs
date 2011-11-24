@@ -11,6 +11,6 @@
 namespace web {
     
     
-    public partial class login {
+    public partial class LoginPage {
     }
 }
