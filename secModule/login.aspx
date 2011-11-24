@@ -20,8 +20,6 @@ See the License for the specific language governing permissions and
 
 </asp:Content>
 <asp:Content ID="Content1" ContentPlaceHolderID="content" runat="server">
-    <h1>
-        Login page</h1>
     <asp:LoginView runat="server">
         <AnonymousTemplate>
             <asp:Login ID="Login1" runat="server">

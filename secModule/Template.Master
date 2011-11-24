@@ -31,11 +31,11 @@ See the License for the specific language governing permissions and
             </div>
         </LoggedInTemplate>
     </asp:LoginView>
-    <h4>
+    <h3>
         Wellcome
         <asp:LoginName runat="server" />
         <asp:LoginStatus runat="server" />
-    </h4>
+    </h3>
     <div>
         <asp:ContentPlaceHolder ID="content" runat="server">
         </asp:ContentPlaceHolder>

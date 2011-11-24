@@ -1,6 +1,6 @@
-﻿
-<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="test._Default"
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="home.aspx.cs" Inherits="web.private.home"
     MasterPageFile="~/Template.Master" %>
+
 <%-- 
 Copyright 2011 Eivar Montenegro <e.mont01@gmail.com>
 
@@ -16,11 +16,11 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
    limitations under the License.
 --%>
-<asp:Content ContentPlaceHolderID="menu" runat="server">
+<asp:Content ID="Content1" ContentPlaceHolderID="menu" runat="server">
 
 </asp:Content>
-<asp:Content ContentPlaceHolderID="content" runat="server">
-    <h2>Wellcom to the public section</h2>
+<asp:Content ID="Content2" ContentPlaceHolderID="content" runat="server">
+    <h2>Wellcom to the private section</h2>
     <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus vitae accumsan
         lectus. Vivamus suscipit feugiat pulvinar. Nullam sed tellus sed augue ultrices
