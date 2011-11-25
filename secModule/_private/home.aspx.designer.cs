@@ -11,6 +11,6 @@
 namespace web {
     
     
-    public partial class DefaultPage {
+    public partial class HomePage {
     }
 }

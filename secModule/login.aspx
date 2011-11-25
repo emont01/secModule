@@ -1,4 +1,7 @@
-﻿/**
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="login.aspx.cs" Inherits="web.LoginPage"
+    MasterPageFile="~/Template.Master" %>
+
+<%-- 
 Copyright 2011 Eivar Montenegro <e.mont01@gmail.com>
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,21 +15,15 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
    limitations under the License.
-**/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-
-namespace web
-{
-    public partial class DefaultPage : System.Web.UI.Page
-    {
-        protected void Page_Load(object sender, EventArgs e)
-        {
-
-        }
-    }
-}
+--%>
+<asp:Content ID="Content1" ContentPlaceHolderID="content" runat="server">
+    <asp:LoginView runat="server">
+        <AnonymousTemplate>
+            <asp:Login ID="Login1" runat="server">
+            </asp:Login>
+        </AnonymousTemplate>
+        <LoggedInTemplate>
+            Glad you are back!
+        </LoggedInTemplate>
+    </asp:LoginView>
+</asp:Content>
