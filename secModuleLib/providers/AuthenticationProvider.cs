@@ -119,9 +119,9 @@ namespace lib.providers
 
             config[DESCRIPTION] = helper.contains(DESCRIPTION) ? helper.get(DESCRIPTION) : "Custom Membership Provider";
 
-            base.Initialize(name, config);
-
             ApplicationName = helper.getOrFail(APP_NAME);
+
+            base.Initialize(name, config);
 
             pMaxInvalidPasswordAttempts = helper.contains(MAX_INVALID_PWD_ATTEMPS) ?
                 Convert.ToInt32(helper.get(MAX_INVALID_PWD_ATTEMPS)) : 3;

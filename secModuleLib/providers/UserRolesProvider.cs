@@ -44,8 +44,8 @@ namespace lib.providers
 
             config[DESCRIPTION] = util.contains(DESCRIPTION) ? util.get(DESCRIPTION) : "Custom Role Provider";
 
-            base.Initialize(name, config);
             this.ApplicationName = util.getOrFail(APP_NAME);
+            base.Initialize(name, config);
 
         }
 
