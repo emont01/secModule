@@ -64,12 +64,36 @@
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="error_page.aspx.cs">
+      <DependentUpon>error_page.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="error_page.aspx.designer.cs">
+      <DependentUpon>error_page.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
     <Compile Include="login.aspx.cs">
       <DependentUpon>login.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="login.aspx.designer.cs">
       <DependentUpon>login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="page_not_found.aspx.cs">
+      <DependentUpon>page_not_found.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="page_not_found.aspx.designer.cs">
+      <DependentUpon>page_not_found.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="unauthorized.aspx.cs">
+      <DependentUpon>unauthorized.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="unauthorized.aspx.designer.cs">
+      <DependentUpon>unauthorized.aspx</DependentUpon>
     </Compile>
     <Compile Include="_private\home.aspx.cs">
       <DependentUpon>home.aspx</DependentUpon>
@@ -103,7 +127,11 @@
     <Content Include="README.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="error_page.aspx" />
+    <Content Include="Global.asax" />
     <Content Include="login.aspx" />
+    <Content Include="page_not_found.aspx" />
+    <Content Include="unauthorized.aspx" />
     <Content Include="_private\home.aspx" />
     <Content Include="WebAppSettings.config" />
   </ItemGroup>

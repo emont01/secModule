@@ -240,7 +240,7 @@ namespace lib.dal
 
         internal IList<string> listRoleNamesByUser(string userName)
         {
-            return dbManager.SetCommand(@"SELECT Roles.*
+            return dbManager.SetCommand(@"SELECT Roles.name
                 FROM Roles 
                 INNER JOIN Users_Roles ON Roles.id = Users_Roles.role_id
                 INNER JOIN Users ON Users.id = Users_Roles.user_id

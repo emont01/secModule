@@ -194,7 +194,8 @@ namespace lib.providers
         {
             using (SecurityDAO dao = new SecurityDAO())
             {
-                return dao.listRoleNamesByUser(userName).ToArray();
+                string[] roles = dao.listRoleNamesByUser(userName).ToArray();
+                return roles;
             }
         }
 
