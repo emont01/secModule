@@ -134,6 +134,7 @@
     <Content Include="README.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="css\main.css" />
     <Content Include="error_page.aspx" />
     <Content Include="Global.asax" />
     <Content Include="login.aspx" />

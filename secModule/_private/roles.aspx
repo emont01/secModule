@@ -16,34 +16,32 @@ See the License for the specific language governing permissions and
    limitations under the License.
 --%>
 <asp:Content ID="Content2" ContentPlaceHolderID="content" runat="server">
-    <asp:ObjectDataSource ID="ds" runat="server" TypeName="lib.dal.RolesDataSource" SelectMethod="list" StartRowIndexParameterName="first"
-        MaximumRowsParameterName="offset"></asp:ObjectDataSource>
+    <asp:ObjectDataSource ID="ds" runat="server" TypeName="lib.dal.RolesDataSource" 
+        EnablePaging="True" SelectMethod="list" StartRowIndexParameterName="first" MaximumRowsParameterName="offset"
+        SelectCountMethod="count"></asp:ObjectDataSource>
     <asp:Repeater runat="server" DataSourceID="ds">
         <HeaderTemplate>
             <asp:Label runat="server">Roles</asp:Label>
         </HeaderTemplate>
         <ItemTemplate>
-            <div style="#fff;">
-                <asp:HiddenField runat="server" Value='<%# Bind("Id") %>' />
+            <div style="background-color: #fff;">
+                <asp:HiddenField ID="hdfId" runat="server" Value='<%# Bind("Id") %>' />
                 <br />
-                <asp:Label runat="server" Text='<%# Bind("Name") %>' /><br />
-                <asp:Label runat="server" Text='<%# Bind("Descripcion") %>' />
+                <asp:Label ID="lblName" runat="server" Text='<%# Bind("Name") %>' /><br />
+                <asp:Label ID="lblDescripcion" runat="server" Text='<%# Bind("Description") %>' />
             </div>
         </ItemTemplate>
         <AlternatingItemTemplate>
-            <div style="#ccc;">
-                <asp:HiddenField ID="HiddenField1" runat="server" Value='<%# Bind("Id") %>' />
+            <div style="background-color: #ccc;">
+                <asp:HiddenField ID="hdfId" runat="server" Value='<%# Bind("Id") %>' />
                 <br />
-                <asp:Label ID="Label1" runat="server" Text='<%# Bind("Name") %>' /><br />
-                <asp:Label ID="Label2" runat="server" Text='<%# Bind("Descripcion") %>' /></div>
+                <asp:Label ID="lblName" runat="server" Text='<%# Bind("Name") %>' /><br />
+                <asp:Label ID="lblDescripcion" runat="server" Text='<%# Bind("Descripcion") %>' /></div>
         </AlternatingItemTemplate>
     </asp:Repeater>
 </asp:Content>
 <asp:Content ID="Content1" ContentPlaceHolderID="menu" runat="server">
-    <div>
-        <a href="roles.aspx">Manage Roles</a></div>
-    <div>
-        <a href="users.aspx">Manage Users</a></div>
-    <div>
-        <a href="menus.aspx">Manage Menus</a></div>
+    <span class="menu"><a href="roles.aspx">Roles</a></span> 
+    <span class="menu"><a href="users.aspx">Users</a></span>
+    <span class="menu"><a href="menus.aspx">Menus</a></span>
 </asp:Content>

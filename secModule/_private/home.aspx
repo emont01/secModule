@@ -23,10 +23,7 @@ See the License for the specific language governing permissions and
     </p>
 </asp:Content>
 <asp:Content ContentPlaceHolderID="menu" runat="server">
-    <div>
-        <a href="roles.aspx">Manage Roles</a></div>
-    <div>
-        <a href="users.aspx">Manage Users</a></div>
-    <div>
-        <a href="menus.aspx">Manage Menus</a></div>
+    <span class="menu"><a href="roles.aspx">Roles</a></span> 
+    <span class="menu"><a href="users.aspx">Users</a></span>
+    <span class="menu"><a href="menus.aspx">Menus</a></span>
 </asp:Content>

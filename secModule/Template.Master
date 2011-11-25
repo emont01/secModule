@@ -20,14 +20,7 @@ See the License for the specific language governing permissions and
     <title>Authorization Module</title>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
-    <style type="text/css">
-    span.menu
-    {
-        display:inline;
-        width: 100px;
-        border: 1px solid #CCCCCC;
-    }
-    </style>
+    <link href="css/main.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
     <form id="form1" runat="server">

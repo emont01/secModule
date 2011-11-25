@@ -18,5 +18,12 @@ namespace lib.dal
             }
         }
 
+        public int count()
+        {
+            using (SecurityDAO dao = new SecurityDAO())
+            {
+                return dao.listAllRoles().Count;
+            }
+        }
     }
 }
