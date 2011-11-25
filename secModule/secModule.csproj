@@ -110,6 +110,13 @@
     <Compile Include="Template.Master.designer.cs">
       <DependentUpon>Template.Master</DependentUpon>
     </Compile>
+    <Compile Include="_private\roles.aspx.cs">
+      <DependentUpon>roles.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="_private\roles.aspx.designer.cs">
+      <DependentUpon>roles.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Template.Master" />
@@ -134,6 +141,7 @@
     <Content Include="unauthorized.aspx" />
     <Content Include="_private\home.aspx" />
     <Content Include="WebAppSettings.config" />
+    <Content Include="_private\roles.aspx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App_Data\db_create.sql" />

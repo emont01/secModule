@@ -288,5 +288,10 @@ namespace lib.dal
         {
             //throw new NotImplementedException();
         }
+
+        internal IList<Role> listAllRoles()
+        {
+            return roleAccessor.SelectAll();
+        }
     }
 }

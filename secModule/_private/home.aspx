@@ -1,5 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="home.aspx.cs" Inherits="web.HomePage"
-    MasterPageFile="~/Template.Master" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="home.aspx.cs" Inherits="web.HomePage" MasterPageFile="~/Template.Master" %>
 
 <%-- 
 Copyright 2011 Eivar Montenegro <e.mont01@gmail.com>
@@ -17,8 +16,17 @@ See the License for the specific language governing permissions and
    limitations under the License.
 --%>
 <asp:Content ID="Content2" ContentPlaceHolderID="content" runat="server">
-    <h2>Private section</h2>
+    <h2>
+        Private section</h2>
     <p>
         This section is only for user with the right roles
     </p>
+</asp:Content>
+<asp:Content ContentPlaceHolderID="menu" runat="server">
+    <div>
+        <a href="roles.aspx">Manage Roles</a></div>
+    <div>
+        <a href="users.aspx">Manage Users</a></div>
+    <div>
+        <a href="menus.aspx">Manage Menus</a></div>
 </asp:Content>

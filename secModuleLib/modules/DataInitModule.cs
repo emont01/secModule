@@ -20,6 +20,16 @@ namespace lib.modules
         {
             if (InsertDefaultDataOnInit)
             {
+                using (var db = new DbManager())
+                {
+                    db.SetCommand(
+                        @"TRUNCATE TABLE dbo.Users_Roles
+                        TRUNCATE TABLE dbo.Menus_Roles
+                        TRUNCATE TABLE dbo.Menus
+                        TRUNCATE TABLE dbo.Users
+                        TRUNCATE TABLE dbo.Roles").ExecuteNonQuery();
+                }
+
                 using (var secDAO = new SecurityDAO())
                 {
                     secDAO.createRole("admins", "");
@@ -31,7 +41,6 @@ namespace lib.modules
                     secDAO.assignRoleToMenu("admins", "_private/home.aspx");
                 }
             }
-            context.Disposed += new EventHandler(onAppDispose);
         }
 
         private bool InsertDefaultDataOnInit
@@ -40,31 +49,6 @@ namespace lib.modules
             {
                 string aux = WebConfigurationManager.AppSettings["InsertDefaultDataOnInit"];
                 return string.IsNullOrEmpty(aux) ? false : Convert.ToBoolean(aux);
-            }
-        }
-
-        void onAppDispose(object sender, EventArgs e)
-        {
-            if (DeleteDataOnDispose)
-            {
-                using (var db = new DbManager())
-                {
-                    db.SetCommand(
-                        @"TRUNCATE TABLE dbo.Users_Roles
-                        TRUNCATE TABLE dbo.Menus_Roles
-                        TRUNCATE TABLE dbo.Menus
-                        TRUNCATE TABLE dbo.Users
-                        TRUNCATE TABLE dbo.Roles").ExecuteNonQuery();
-                }
-            }
-        }
-
-        private bool DeleteDataOnDispose
-        {
-            get
-            {
-                string aux = WebConfigurationManager.AppSettings["DeleteDataOnDispose"];
-                return string.IsNullOrEmpty(aux)? false : Convert.ToBoolean(aux);
             }
         }
 
