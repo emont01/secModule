@@ -6,6 +6,7 @@ using BLToolkit.Data;
 using lib.model;
 using System.Web.Security;
 using BLToolkit.DataAccess;
+using System.Security.Cryptography;
 
 namespace lib.dal
 {
@@ -72,11 +73,6 @@ namespace lib.dal
                 true, user.Blocked, user.CreatedAt, DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now);
         }
 
-        internal void saveUserLogin(Int32 userId)
-        {
-            //
-        }
-
         internal void updateUser(User user)
         {
             userAccessor.Update(user);
@@ -90,7 +86,7 @@ namespace lib.dal
                               ( SELECT row_number() OVER (ORDER BY name ASC) row_num, u.* FROM Users u ) 
                               Users
                               WHERE row_num >= @offset AND row_num < @limit AND name LIKE @user_name",
-                          dbManager.Parameter("@offset", offset), 
+                          dbManager.Parameter("@offset", offset),
                           dbManager.Parameter("@limit", limit),
                           dbManager.Parameter("@user_name", userNameToMatch)).ExecuteScalarList<User>();
             return users;
@@ -108,15 +104,81 @@ namespace lib.dal
         {
             User user = readUserByName(userName);
             Role role = readRoleByName(roleName);
-            UserRole userRole = new UserRole();
-            userRole.RoleId = role.Id;
-            userRole.UserId = user.Id;
+            UserRole userRole = new UserRole { RoleId = role.Id, UserId = user.Id };
             userRoleAccessor.Insert(userRole);
+        }
+
+
+        internal void assignRoleToMenu(string roleName, string menuPath)
+        {
+            Role role = readRoleByName(roleName);
+            Menu menu = readMenuByPath(menuPath);
+            MenuRole menuRole = new MenuRole { MenuId = menu.Id, RoleId = role.Id };
+            menuRoleAccessor.Insert(menuRole);
+        }
+
+        private Menu readMenuByPath(string menuPath)
+        {
+            return dbManager.SetCommand(@"SELECT [id],[path],[name]
+                FROM [Menus] WHERE [path] like @menu_path", 
+                dbManager.Parameter("@menu_path", menuPath)).ExecuteObject<Menu>();
+        }
+
+        internal void createRole(string name, string description)
+        {
+            createRole(new Role { Name = name, Description = description });
         }
 
         internal void createRole(Role role)
         {
             roleAccessor.Insert(role);
+        }
+
+        internal void createUser(string email, string name, string plainTextPassword)
+        {
+            String salt = generateRandomBase64Salt();
+            User user = new User
+            {
+                Blocked = false,
+                CreatedAt = DateTime.Now,
+                Email = email,
+                Name = name,
+                Password = encodePassword(plainTextPassword, salt),
+                Salt = salt
+            };
+            createUser(user);
+        }
+
+        internal void createUser(User user)
+        {
+            userAccessor.Insert(user);
+        }
+
+        internal string encodePassword(string password, string salt)
+        {
+            byte[] bytes = Encoding.Unicode.GetBytes(password);
+            byte[] src = Encoding.Unicode.GetBytes(salt);
+            byte[] dst = new byte[src.Length + bytes.Length];
+
+            Buffer.BlockCopy(src, 0, dst, 0, src.Length);
+            Buffer.BlockCopy(bytes, 0, dst, src.Length, bytes.Length);
+
+            HashAlgorithm algorithm = HashAlgorithm.Create("SHA1");
+
+            byte[] inArray = algorithm.ComputeHash(dst);
+
+            return Convert.ToBase64String(inArray);
+        }
+
+        private string generateRandomBase64Salt()
+        {
+            byte[] saltBytes = new byte[50];
+
+            RandomNumberGenerator rng = RNGCryptoServiceProvider.Create();
+            rng.GetNonZeroBytes(saltBytes);
+            rng.GetBytes(saltBytes);
+            string b64Salt = Convert.ToBase64String(saltBytes);
+            return b64Salt;
         }
 
         internal void deleteRole(Role role)
@@ -166,7 +228,6 @@ namespace lib.dal
                 .ExecuteNonQuery();
         }
 
-
         internal IList<string> listRoleNamesByUser(string userName)
         {
             return dbManager.SetCommand(@"SELECT Roles.*
@@ -193,5 +254,29 @@ namespace lib.dal
             return dbManager.SetCommand("SELECT name FROM Roles").ExecuteScalarList<string>();
         }
 
+        internal void recordUserLoginSuccess(User user)
+        {
+            //throw new NotImplementedException();
+        }
+
+        internal void recordUserLoginFailure(User user)
+        {
+            //throw new NotImplementedException();
+        }
+
+        internal void createMenu(string name, string path)
+        {
+            createMenu(new Menu { Name = name, Path = path });
+        }
+
+        internal void createMenu(Menu menu)
+        {
+            menuAccessor.Insert(menu);
+        }
+
+        internal void recordUserActivity(User dbUser)
+        {
+            //throw new NotImplementedException();
+        }
     }
 }

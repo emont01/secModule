@@ -195,11 +195,11 @@ namespace lib.providers
         {
             using (SecurityDAO secDAO = new SecurityDAO())
             {
-                MembershipUser user = secDAO.convertUserToMembershipUser(secDAO.readUserByName(username),
-                    this.Name);
+                User dbUser = secDAO.readUserByName(username);
+                MembershipUser user = secDAO.convertUserToMembershipUser(dbUser, this.Name);
                 if (userIsOnline)
                 {
-                    secDAO.saveUserLogin(Convert.ToInt32(user.ProviderUserKey));
+                    secDAO.recordUserActivity(dbUser);
                 }
                 return user;
             }
@@ -210,10 +210,11 @@ namespace lib.providers
             using (SecurityDAO secDAO = new SecurityDAO())
             {
                 Int32 id = Convert.ToInt32(providerUserKey);
-                MembershipUser user = secDAO.convertUserToMembershipUser(secDAO.readUserById(id), this.Name);
+                User dbUser = secDAO.readUserById(id);
+                MembershipUser user = secDAO.convertUserToMembershipUser(dbUser, this.Name);
                 if (userIsOnline)
                 {
-                    secDAO.saveUserLogin(id);
+                    secDAO.recordUserActivity(dbUser);
                 }
                 return user;
             }
@@ -269,15 +270,18 @@ namespace lib.providers
                 User user = secDAO.readUserByName(username);
                 if (user == null)
                     return false;
-                //TODO check the best way to perform this validation
-                bool isValid = (!user.Blocked && user.Password == password);
+
+                string hashedPassword = secDAO.encodePassword(password, user.Salt);
+
+                bool isValid = (!user.Blocked && user.Password == hashedPassword);
                 if (isValid)
                 {
-                    secDAO.saveUserLogin(user.Id);
+                    secDAO.recordUserLoginSuccess(user);
                 }
                 else
                 {
                     //TODO record user login attemp failure
+                    secDAO.recordUserLoginFailure(user);
                 }
                 return isValid;
             }
