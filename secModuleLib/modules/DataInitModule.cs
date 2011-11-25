@@ -14,28 +14,6 @@ namespace lib.modules
 
         public void Dispose()
         {
-            if (DeleteDataOnDispose)
-            {
-                using (var db = new DbManager())
-                {
-                    db.SetCommand(
-                        @"TRUNCATE TABLE dbo.Users_Roles
-                        TRUNCATE TABLE dbo.Menus_Roles
-                        TRUNCATE TABLE dbo.Menus
-                        TRUNCATE TABLE dbo.Users
-                        TRUNCATE TABLE dbo.Roles").ExecuteNonQuery();
-                }
-            }
-            
-        }
-
-        private bool DeleteDataOnDispose
-        {
-            get
-            {
-                string aux = WebConfigurationManager.AppSettings["DeleteDataOnDispose"];
-                return string.IsNullOrEmpty(aux)? false : Convert.ToBoolean(aux);
-            }
         }
 
         public void Init(HttpApplication context)
@@ -49,10 +27,11 @@ namespace lib.modules
                     secDAO.createUser("admin@example.net", "admin", "admin");
                     secDAO.assignRoleToUser("admins", "admin");
 
-                    secDAO.createMenu(new Menu { Name="home", Path="_private/home.aspx"});
+                    secDAO.createMenu("home", "_private/home.aspx");
                     secDAO.assignRoleToMenu("admins", "_private/home.aspx");
                 }
             }
+            context.Disposed += new EventHandler(onAppDispose);
         }
 
         private bool InsertDefaultDataOnInit
@@ -63,7 +42,32 @@ namespace lib.modules
                 return string.IsNullOrEmpty(aux) ? false : Convert.ToBoolean(aux);
             }
         }
-        
+
+        void onAppDispose(object sender, EventArgs e)
+        {
+            if (DeleteDataOnDispose)
+            {
+                using (var db = new DbManager())
+                {
+                    db.SetCommand(
+                        @"TRUNCATE TABLE dbo.Users_Roles
+                        TRUNCATE TABLE dbo.Menus_Roles
+                        TRUNCATE TABLE dbo.Menus
+                        TRUNCATE TABLE dbo.Users
+                        TRUNCATE TABLE dbo.Roles").ExecuteNonQuery();
+                }
+            }
+        }
+
+        private bool DeleteDataOnDispose
+        {
+            get
+            {
+                string aux = WebConfigurationManager.AppSettings["DeleteDataOnDispose"];
+                return string.IsNullOrEmpty(aux)? false : Convert.ToBoolean(aux);
+            }
+        }
+
         #endregion
     }
 }

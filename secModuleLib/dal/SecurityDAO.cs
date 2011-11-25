@@ -23,12 +23,22 @@ namespace lib.dal
         {
             dbManager = new DbManager();
             userAccessor = new SqlQuery<User>(dbManager);
+            roleAccessor = new SqlQuery<Role>(dbManager);
+            menuAccessor = new SqlQuery<Menu>(dbManager);
+            userRoleAccessor = new SqlQuery<UserRole>(dbManager);
+            menuRoleAccessor = new SqlQuery<MenuRole>(dbManager);
         }
 
         #region IDisposable Members
 
         public void Dispose()
         {
+
+            userAccessor = null;
+            roleAccessor = null;
+            menuAccessor = null;
+            userRoleAccessor = null;
+            menuRoleAccessor = null;
             dbManager.Dispose();
         }
 
