@@ -19,14 +19,22 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using lib.ioc.di;
 
 namespace web
 {
-    public partial class DefaultPage : System.Web.UI.Page
+    public partial class DefaultPage : System.Web.UI.Page, IPage
     {
+
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            lblMessages.Text = Resource.getMessage();
         }
+
+        #region IPage Members
+
+        public lib.IResource Resource { get; set; }
+
+        #endregion
     }
 }

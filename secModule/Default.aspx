@@ -28,4 +28,5 @@ See the License for the specific language governing permissions and
         Donec in magna id nulla lacinia ultrices sit amet ac lorem. Suspendisse potenti.
         Ut quis vestibulum est. Praesent nec nunc id nulla volutpat adipiscing in a sem.
     </p>
+    <asp:Label ID="lblMessages" runat="server" />
 </asp:Content>

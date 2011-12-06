@@ -57,6 +57,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="dal\RolesDataSource.cs" />
+    <Compile Include="ioc\di\SimpleInjectorPageHandlerFactory.cs" />
+    <Compile Include="ioc\di\IPage.cs" />
+    <Compile Include="IResource.cs" />
     <Compile Include="modules\AuthorizationModule.cs" />
     <Compile Include="dal\SecurityDAO.cs" />
     <Compile Include="model\Menu.cs" />
