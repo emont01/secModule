@@ -1,17 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
+using lib.ioc.di;
 
 namespace web
 {
-    public partial class Template : System.Web.UI.MasterPage
+    public partial class Template : System.Web.UI.MasterPage, IPage
     {
         protected void Page_Load(object sender, EventArgs e)
         {
 
         }
+
+        #region IPage Members
+
+        public lib.i18n.I18NSupport I18NHelper { get; set; }
+
+        public string _(string text)
+        {
+            return I18NHelper._(text);
+        }
+
+        #endregion
     }
 }

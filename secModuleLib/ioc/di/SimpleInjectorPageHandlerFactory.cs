@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web;
 using System.Web.UI;
+using lib.i18n;
 
 namespace lib.ioc.di
 {
@@ -15,9 +16,7 @@ namespace lib.ioc.di
             {
                 IPage page = handler as IPage;
                 //all the reources will be injected here.
-                page.Resource = new Resource(
-                    String.Format("The owner of this resource is an instance of the class {0}",
-                                  page.GetType().Name));
+                page.I18NHelper = new I18NHelper();
             }
             return handler;
         }

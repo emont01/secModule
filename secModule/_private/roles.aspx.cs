@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 namespace web._private
 {
-    public partial class roles : System.Web.UI.Page
+    public partial class roles : AppPage
     {
         protected void Page_Load(object sender, EventArgs e)
         {

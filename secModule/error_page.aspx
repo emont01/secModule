@@ -1,4 +1,5 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="error_page.aspx.cs" Inherits="web.error_page" MasterPageFile="~/Template.Master" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="error_page.aspx.cs" Inherits="web.error_page"
+    MasterPageFile="~/Template.Master" %>
 
 <%-- 
 Copyright 2011 Eivar Montenegro <e.mont01@gmail.com>
@@ -17,10 +18,11 @@ See the License for the specific language governing permissions and
 --%>
 <asp:Content ID="Content1" ContentPlaceHolderID="content" runat="server">
     <div style="background-color: #FFFF66;">
-    <h2>
-        Error</h2>
-    <p>
-        Some unexpected error was detected, please notify to the admins.
-    </p>
+        <h2>
+            <%= _("Error") %>
+        </h2>
+        <p>
+            Some unexpected error was detected, please notify to the admins.
+        </p>
     </div>
 </asp:Content>

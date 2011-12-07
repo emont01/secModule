@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 namespace web
 {
-    public partial class unauthorized : System.Web.UI.Page
+    public partial class unauthorized : AppPage
     {
         protected void Page_Load(object sender, EventArgs e)
         {

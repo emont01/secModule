@@ -57,9 +57,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="dal\RolesDataSource.cs" />
+    <Compile Include="i18n\I18NSupport.cs" />
+    <Compile Include="i18n\Internationalization.cs" />
+    <Compile Include="i18n\Localization.cs" />
+    <Compile Include="i18n\Message.cs" />
     <Compile Include="ioc\di\SimpleInjectorPageHandlerFactory.cs" />
     <Compile Include="ioc\di\IPage.cs" />
-    <Compile Include="IResource.cs" />
     <Compile Include="modules\AuthorizationModule.cs" />
     <Compile Include="dal\SecurityDAO.cs" />
     <Compile Include="model\Menu.cs" />
@@ -85,4 +88,8 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
 </Project>

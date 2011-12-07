@@ -1,6 +1,6 @@
-﻿
-<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="web.DefaultPage"
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="web.DefaultPage"
     MasterPageFile="~/Template.Master" %>
+
 <%-- 
 Copyright 2011 Eivar Montenegro <e.mont01@gmail.com>
 
@@ -17,16 +17,9 @@ See the License for the specific language governing permissions and
    limitations under the License.
 --%>
 <asp:Content ContentPlaceHolderID="content" runat="server">
-    <h2>Public section</h2>
+    <h2>
+        <%= _("Public section") %></h2>
     <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus vitae accumsan
-        lectus. Vivamus suscipit feugiat pulvinar. Nullam sed tellus sed augue ultrices
-        adipiscing. Vestibulum orci nisl, viverra sit amet cursus non, lacinia non neque.
-        Nam luctus dictum tortor ut ornare. Nunc id risus purus, a aliquet augue. Curabitur
-        egestas, nunc eu luctus fermentum, est magna iaculis mi, vel adipiscing nisi ipsum
-        sit amet sapien. Duis arcu augue, rhoncus pulvinar fermentum nec, semper et tellus.
-        Donec in magna id nulla lacinia ultrices sit amet ac lorem. Suspendisse potenti.
-        Ut quis vestibulum est. Praesent nec nunc id nulla volutpat adipiscing in a sem.
+        <%= _("greetings paragraph") %>
     </p>
-    <asp:Label ID="lblMessages" runat="server" />
 </asp:Content>

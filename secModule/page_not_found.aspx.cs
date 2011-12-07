@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 namespace web
 {
-    public partial class page_not_found : System.Web.UI.Page
+    public partial class page_not_found : AppPage
     {
         protected void Page_Load(object sender, EventArgs e)
         {

@@ -1,4 +1,5 @@
 ﻿
+using lib.i18n;
 namespace lib.ioc.di
 {
     /// <summary>
@@ -7,7 +8,9 @@ namespace lib.ioc.di
     public interface IPage
     {
 
-        //just a simple property for testing
-        IResource Resource { get; set; }
+        I18NSupport I18NHelper { get; set; }
+
+        // I18N function
+        string _(string text);
     }
 }

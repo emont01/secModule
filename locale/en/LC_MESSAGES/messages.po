@@ -1,0 +1,23 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: Eivar Montenegro <e.mont01@gmail.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: C:\Users\montenegroea\Documents\Development\secModule\secModule\Default.aspx:21
+msgid "Public section"
+msgstr "Public section"
+
+#: C:\Users\montenegroea\Documents\Development\secModule\secModule\Default.aspx:23
+msgid "greetings paragraph"
+msgstr "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus vitae accumsan lectus. Vivamus suscipit feugiat pulvinar. Nullam sed tellus sed augue ultrices adipiscing. Vestibulum orci nisl, viverra sit amet cursus non, lacinia non neque. Nam luctus dictum tortor ut ornare. Nunc id risus purus, a aliquet augue. Curabitur egestas, nunc eu luctus fermentum, est magna iaculis mi, vel adipiscing nisi ipsum sit amet sapien. Duis arcu augue, rhoncus pulvinar fermentum nec, semper et tellus. Donec in magna id nulla lacinia ultrices sit amet ac lorem. Suspendisse potenti. Ut quis vestibulum est. Praesent nec nunc id nulla volutpat adipiscing in a sem."
+
+#: C:\Users\montenegroea\Documents\Development\secModule\secModule\error_page.aspx:22
+msgid "Error"
+msgstr "Error"
+

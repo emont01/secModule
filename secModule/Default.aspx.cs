@@ -14,27 +14,15 @@ See the License for the specific language governing permissions and
    limitations under the License.
 **/
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using lib.ioc.di;
 
 namespace web
 {
-    public partial class DefaultPage : System.Web.UI.Page, IPage
+    public partial class DefaultPage : AppPage
     {
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            lblMessages.Text = Resource.getMessage();
         }
 
-        #region IPage Members
-
-        public lib.IResource Resource { get; set; }
-
-        #endregion
     }
 }

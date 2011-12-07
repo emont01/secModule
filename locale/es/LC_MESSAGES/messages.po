@@ -1,0 +1,11 @@
+#: C:\Users\montenegroea\Documents\Development\secModule\secModule\Default.aspx:21
+msgid "Public section"
+msgstr ""
+
+#: C:\Users\montenegroea\Documents\Development\secModule\secModule\Default.aspx:23
+msgid "greetings paragraph"
+msgstr ""
+
+#: C:\Users\montenegroea\Documents\Development\secModule\secModule\error_page.aspx:22
+msgid "Error"
+msgstr ""
