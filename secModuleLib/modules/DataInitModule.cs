@@ -20,12 +20,11 @@ namespace lib.modules
             if (!InsertDefaultDataOnInit) return;
             using (var db = new DbManager())
             {
-                db.SetCommand(
-                    @"TRUNCATE TABLE dbo.Users_Roles
-                        TRUNCATE TABLE dbo.Menus_Roles
-                        TRUNCATE TABLE dbo.Menus
-                        TRUNCATE TABLE dbo.Users
-                        TRUNCATE TABLE dbo.Roles").ExecuteNonQuery();
+                db.SetCommand("TRUNCATE TABLE Users_Roles").ExecuteNonQuery();
+                db.SetCommand("TRUNCATE TABLE Menus_Roles").ExecuteNonQuery();
+                db.SetCommand("TRUNCATE TABLE Menus").ExecuteNonQuery();
+                db.SetCommand("TRUNCATE TABLE Users").ExecuteNonQuery();
+                db.SetCommand("TRUNCATE TABLE Roles").ExecuteNonQuery();
             }
 
             using (var secDAO = new SecurityDAO())

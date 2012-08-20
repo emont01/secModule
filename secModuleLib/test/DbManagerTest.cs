@@ -42,7 +42,6 @@ namespace lib.test
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
                 Assert.Fail("Can not connect to: " + DBName, ex);
             }
         }
