@@ -1,34 +1,34 @@
 -- create your database and use this script to create the corresponding tables.
-create table Users(
-    id int not null auto_increment primary key,
-    name varchar(30) not null,
-    email varchar(255) not null,
-    salt varchar(255) not null,
-    `password` varchar(300) not null,
-    created_at DATETIME not null,
-    blocked BOOL not null
-)
+CREATE TABLE Users (
+    id INT NOT NULL auto_increment PRIMARY KEY
+    ,`name` VARCHAR(30) NOT NULL
+    ,email VARCHAR(255) NOT NULL
+    ,salt VARCHAR(255) NOT NULL
+    ,`password` VARCHAR(300) NOT NULL
+    ,created_at DATETIME NOT NULL
+    ,blocked BOOL NOT NULL
+    )
 
-create table Roles(
-    id int not null auto_increment primary key,
-    name varchar(30) not null,
-    description varchar(255)
-)
+CREATE TABLE Roles (
+    id INT NOT NULL auto_increment PRIMARY KEY
+    ,`name` VARCHAR(30) NOT NULL
+    ,description VARCHAR(255)
+    )
 
-create table Menus(
-    id int not null auto_increment primary key,
-    name varchar(30) not null,
-    path varchar(255) not null
-)
+CREATE TABLE Menus (
+    id INT NOT NULL auto_increment PRIMARY KEY
+    ,`name` VARCHAR(30) NOT NULL
+    ,`path` VARCHAR(255) NOT NULL
+    )
 
-create table Menus_Roles(
-    id int not null auto_increment primary key,
-    menu_id int,
-    role_id int
-)
+CREATE TABLE Menus_Roles (
+    id INT NOT NULL auto_increment PRIMARY KEY
+    ,menu_id INT
+    ,role_id INT
+    )
 
-create table Users_Roles(
-    id int not null auto_increment primary key,
-    user_id int,
-    role_id int
-)
+CREATE TABLE Users_Roles (
+    id INT NOT NULL auto_increment PRIMARY KEY
+    ,user_id INT
+    ,role_id INT
+    )
