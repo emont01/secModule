@@ -13,7 +13,7 @@ namespace lib.dal
         {
             using(SecurityDAO dao = new SecurityDAO())
             {
-                var list = (from r in dao.listAllRoles() select r).Skip(first).Take(offset).ToList();
+                var list = (from r in dao.ListAllRoles() select r).Skip(first).Take(offset).ToList();
                 return list;
             }
         }
@@ -22,7 +22,7 @@ namespace lib.dal
         {
             using (SecurityDAO dao = new SecurityDAO())
             {
-                return dao.listAllRoles().Count;
+                return dao.ListAllRoles().Count;
             }
         }
     }

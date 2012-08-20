@@ -61,7 +61,7 @@ namespace lib.providers
                 {
                     foreach (string rolename in roleNames)
                     {
-                        secDAO.assignRoleToUser(rolename, username);
+                        secDAO.AssignRoleToUser(rolename, username);
                     }
                 }
             }
@@ -108,7 +108,7 @@ namespace lib.providers
             }
             using (SecurityDAO secDAO = new SecurityDAO())
             {
-                secDAO.createRole(new Role
+                secDAO.CreateRole(new Role
                 {
                     Name = roleName,
                     Description = ""
@@ -128,7 +128,7 @@ namespace lib.providers
             }
             using (SecurityDAO secDAO = new SecurityDAO())
             {
-                secDAO.deleteRole(secDAO.readRoleByName(roleName));
+                secDAO.DeleteRole(secDAO.ReadRoleByName(roleName));
             }
             return true;
         }
@@ -137,7 +137,7 @@ namespace lib.providers
         {
             using (SecurityDAO secDAO = new SecurityDAO())
             {
-                return secDAO.listUserNamesByRole(roleName).ToArray();
+                return secDAO.ListUserNamesByRole(roleName).ToArray();
             }
         }
 
@@ -145,7 +145,7 @@ namespace lib.providers
         {
             using (SecurityDAO dao = new SecurityDAO())
             {
-                return dao.readRoleByName(roleName) != null;
+                return dao.ReadRoleByName(roleName) != null;
             }
         }
 
@@ -153,7 +153,7 @@ namespace lib.providers
         {
             using (SecurityDAO dao = new SecurityDAO())
             {
-                return dao.isUserInRole(userName, roleName);
+                return dao.IsUserInRole(userName, roleName);
             }
         }
 
@@ -184,7 +184,7 @@ namespace lib.providers
                 {
                     foreach (string roleName in roleNames)
                     {
-                        dao.removeUserFromRole(userName, roleName);
+                        dao.RemoveUserFromRole(userName, roleName);
                     }
                 }
             }
@@ -194,7 +194,7 @@ namespace lib.providers
         {
             using (SecurityDAO dao = new SecurityDAO())
             {
-                string[] roles = dao.listRoleNamesByUser(userName).ToArray();
+                string[] roles = dao.ListRoleNamesByUser(userName).ToArray();
                 return roles;
             }
         }
@@ -203,7 +203,7 @@ namespace lib.providers
         {
             using (SecurityDAO dao = new SecurityDAO())
             {
-                return dao.listUserNamesByRoleAndName(roleName, userNameToMatch).ToArray();
+                return dao.ListUserNamesByRoleAndName(roleName, userNameToMatch).ToArray();
             }
         }
 
@@ -211,7 +211,7 @@ namespace lib.providers
         {
             using (SecurityDAO dao = new SecurityDAO())
             {
-                return dao.listAllRolesNames().ToArray();
+                return dao.ListAllRoleNames().ToArray();
             }
         }
     }

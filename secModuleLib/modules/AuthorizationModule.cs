@@ -40,10 +40,10 @@ namespace lib.modules
             {
                 using (SecurityDAO secDAO = new SecurityDAO())
                 {
-                    Menu menu = secDAO.getMenuByPath(getVirtualPathAsLowerCase(application));
+                    Menu menu = secDAO.GetMenuByPath(getVirtualPathAsLowerCase(application));
                     if (menu != null)
                     {
-                        foreach (Role menuRole in secDAO.getRolesFor(menu))
+                        foreach (Role menuRole in secDAO.GetRolesFor(menu))
                         {
                             if (!userIsInRole(application, menuRole))
                             {

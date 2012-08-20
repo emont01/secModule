@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using BLToolkit.Data;
+using BLToolkit.Data.Linq;
 using lib.model;
 using System.Web.Security;
 using BLToolkit.DataAccess;
@@ -12,7 +13,7 @@ namespace lib.dal
 {
     public class SecurityDAO : IDisposable
     {
-        private DbManager dbManager;
+        private readonly DbManager dbManager;
         private SqlQuery<User> userAccessor;
         private SqlQuery<Role> roleAccessor;
         private SqlQuery<Menu> menuAccessor;
@@ -29,6 +30,37 @@ namespace lib.dal
             menuRoleAccessor = new SqlQuery<MenuRole>(dbManager);
         }
 
+        #region Tables properties
+        /**
+         * To simplify the linq usage
+         */
+        private Table<Menu> Menus
+        {
+            get { return dbManager.GetTable<Menu>(); }
+        }
+
+        private Table<Role> Roles
+        {
+            get { return dbManager.GetTable<Role>(); }
+        }
+
+        private Table<User> Users
+        {
+            get { return dbManager.GetTable<User>(); }
+        }
+
+        private Table<MenuRole> MenusRoles
+        {
+            get { return dbManager.GetTable<MenuRole>(); }
+        }
+
+        private Table<UserRole> UsersRoles
+        {
+            get { return dbManager.GetTable<UserRole>(); }
+        }
+
+        #endregion
+
         #region IDisposable Members
 
         public void Dispose()
@@ -44,252 +76,264 @@ namespace lib.dal
 
         #endregion
 
-        internal Menu getMenuByPath(string path)
+        internal Menu GetMenuByPath(string path)
         {
-            return dbManager.SetCommand("SELECT [id],[path],[name] FROM [Menus] WHERE LOWER([path]) like LOWER(@path)",
-                dbManager.Parameter("@path", path)).ExecuteObject<Menu>();
+            path = String.IsNullOrEmpty(path) ? "" : path.ToLower();
+
+            var query = from m in Menus
+                        where m.Path.Contains(path)
+                        select m;
+            return query.FirstOrDefault();
         }
 
-        internal IList<Role> getRolesFor(Menu menu)
+        internal IList<Role> GetRolesFor(Menu paramMenu)
         {
-            return dbManager.SetCommand(
-                @"SELECT Roles.id, Roles.description, Roles.name
-                FROM Menus 
-                INNER JOIN Menus_Roles ON Menus.id = Menus_Roles.menu_id 
-                INNER JOIN Roles ON Roles.id = Menus_Roles.role_id
-                WHERE Menus.id =@menu_id", dbManager.Parameter("@menu_id", menu.Id)).ExecuteList<Role>();
+            var query = from menu in Menus
+                        join menuRole in MenusRoles on menu.Id equals menuRole.MenuId
+                        join role in Roles on menuRole.RoleId equals role.Id
+                        where menu.Id == paramMenu.Id
+                        select role;
+            return query.ToList();
         }
 
-        internal User readUserByName(string userName)
+        internal User ReadUserByName(string userName)
         {
-            return dbManager.SetCommand(
-                @"SELECT [id],[name],[email],[salt],[password],[created_at] 
-                FROM [Users] WHERE name like @user_name",
-                dbManager.Parameter("@user_name", userName)).ExecuteObject<User>();
+            var query = from u in Users
+                        where u.Name.Contains(userName)
+                        select u;
+            return query.FirstOrDefault();
         }
 
-        internal User readUserById(int userId)
+        internal User ReadUserById(int userId)
         {
-            //TODO we may use userAccessor.SelectByKey(params object[] keys) and not a custom sql
-            return dbManager.SetCommand(
-                @"SELECT [id],[name],[email],[salt],[password],[created_at] 
-                FROM [Users] WHERE name = @user_id",
-                dbManager.Parameter("@user_id", userId)).ExecuteObject<User>();
+            return userAccessor.SelectByKey(userId);
         }
 
-        internal MembershipUser convertUserToMembershipUser(User user, string providerName)
+        internal MembershipUser ConvertUserToMembershipUser(User user, string providerName)
         {
             return user == null ? null : new MembershipUser(providerName, user.Name, user.Id, "", "", "",
                 true, user.Blocked, user.CreatedAt, DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now);
         }
 
-        internal void updateUser(User user)
+        internal void UpdateUser(User user)
         {
             userAccessor.Update(user);
         }
 
-        internal IList<User> listUsersByName(string userNameToMatch, int pageIndex, int pageSize)
+        internal IList<User> ListUsersByName(string userNameToMatch, int pageIndex, int pageSize)
         {
-            int offset = pageIndex * pageSize;
-            int limit = offset + pageSize;
-            List<User> users = dbManager.SetCommand(@"SELECT * FROM
-                              ( SELECT row_number() OVER (ORDER BY name ASC) row_num, u.* FROM Users u ) 
-                              Users
-                              WHERE row_num >= @offset AND row_num < @limit AND name LIKE @user_name",
-                          dbManager.Parameter("@offset", offset),
-                          dbManager.Parameter("@limit", limit),
-                          dbManager.Parameter("@user_name", userNameToMatch)).ExecuteScalarList<User>();
+            var offset = pageIndex * pageSize;
+            //var limit = offset + pageSize;
+            var query = from u in Users
+                        where u.Name.Contains(userNameToMatch)
+                        select u;
+            var users = query.Skip(offset).Take(pageSize).ToList();
+//                dbManager.SetCommand(@"SELECT * FROM
+//                              ( SELECT row_number() OVER (ORDER BY name ASC) row_num, u.* FROM Users u ) 
+//                              Users
+//                              WHERE row_num >= @offset AND row_num < @limit AND name LIKE @user_name",
+//                          dbManager.Parameter("@offset", offset),
+//                          dbManager.Parameter("@limit", limit),
+//                          dbManager.Parameter("@user_name", userNameToMatch)).ExecuteScalarList<User>();
             return users;
         }
 
-        internal Role readRoleByName(string roleName)
+        internal Role ReadRoleByName(string roleName)
         {
-            Role role = dbManager.SetCommand(@"SELECT [id],[name],[description] 
-                FROM dbo.[Roles] WHERE [name] like @role_name",
-                dbManager.Parameter("@role_name", roleName)).ExecuteObject<Role>();
-            return role;
+            var query = from r in Roles
+                        where r.Name.Contains(roleName)
+                        select r;
+            return query.FirstOrDefault();
         }
 
-        internal void assignRoleToUser(string roleName, string userName)
+        internal void AssignRoleToUser(string roleName, string userName)
         {
-            User user = readUserByName(userName);
-            Role role = readRoleByName(roleName);
-            UserRole userRole = new UserRole { RoleId = role.Id, UserId = user.Id };
+            var user = ReadUserByName(userName);
+            var role = ReadRoleByName(roleName);
+            var userRole = new UserRole
+                               {
+                                   RoleId = role.Id, 
+                                   UserId = user.Id
+                               };
             userRoleAccessor.Insert(userRole);
         }
 
 
-        internal void assignRoleToMenu(string roleName, string menuPath)
+        internal void AssignRoleToMenu(string roleName, string menuPath)
         {
-            Role role = readRoleByName(roleName);
-            Menu menu = readMenuByPath(menuPath);
-            MenuRole menuRole = new MenuRole { MenuId = menu.Id, RoleId = role.Id };
+            var role = ReadRoleByName(roleName);
+            var menu = ReadMenuByPath(menuPath);
+            var menuRole = new MenuRole
+                               {
+                                   MenuId = menu.Id, 
+                                   RoleId = role.Id
+                               };
             menuRoleAccessor.Insert(menuRole);
         }
 
-        private Menu readMenuByPath(string menuPath)
+        private Menu ReadMenuByPath(string menuPath)
         {
-            return dbManager.SetCommand(@"SELECT [id],[path],[name]
-                FROM [Menus] WHERE [path] like @menu_path", 
-                dbManager.Parameter("@menu_path", menuPath)).ExecuteObject<Menu>();
+            var query = from m in Menus
+                        where m.Path.Contains(menuPath)
+                        select m;
+            return query.FirstOrDefault();
         }
 
-        internal void createRole(string name, string description)
+        internal void CreateRole(string name, string description)
         {
-            createRole(new Role { Name = name, Description = description });
+            CreateRole(new Role { Name = name, Description = description });
         }
 
-        internal void createRole(Role role)
+        internal void CreateRole(Role role)
         {
             roleAccessor.Insert(role);
         }
 
-        internal void createUser(string email, string name, string plainTextPassword)
+        internal void CreateUser(string email, string name, string plainTextPassword)
         {
-            String salt = generateRandomBase64Salt();
-            User user = new User
+            var salt = GenerateRandomBase64Salt();
+            var user = new User
             {
                 Blocked = false,
                 CreatedAt = DateTime.Now,
                 Email = email,
                 Name = name,
-                Password = encodePassword(plainTextPassword, salt),
+                Password = EncodePassword(plainTextPassword, salt),
                 Salt = salt
             };
-            createUser(user);
+            CreateUser(user);
         }
 
-        internal void createUser(User user)
+        internal void CreateUser(User user)
         {
             userAccessor.Insert(user);
         }
 
-        internal string encodePassword(string password, string salt)
+        internal string EncodePassword(string password, string salt)
         {
-            byte[] bytes = Encoding.Unicode.GetBytes(password);
-            byte[] src = Encoding.Unicode.GetBytes(salt);
-            byte[] dst = new byte[src.Length + bytes.Length];
+            var bytes = Encoding.Unicode.GetBytes(password);
+            var src = Encoding.Unicode.GetBytes(salt);
+            var dst = new byte[src.Length + bytes.Length];
 
             Buffer.BlockCopy(src, 0, dst, 0, src.Length);
             Buffer.BlockCopy(bytes, 0, dst, src.Length, bytes.Length);
 
-            HashAlgorithm algorithm = HashAlgorithm.Create("SHA1");
+            var algorithm = HashAlgorithm.Create("SHA1");
 
-            byte[] inArray = algorithm.ComputeHash(dst);
+            var inArray = algorithm.ComputeHash(dst);
 
             return Convert.ToBase64String(inArray);
         }
 
-        private string generateRandomBase64Salt()
+        private static string GenerateRandomBase64Salt()
         {
-            byte[] saltBytes = new byte[50];
+            var saltBytes = new byte[50];
 
-            RandomNumberGenerator rng = RNGCryptoServiceProvider.Create();
+            var rng = RNGCryptoServiceProvider.Create();
             rng.GetNonZeroBytes(saltBytes);
             rng.GetBytes(saltBytes);
-            string b64Salt = Convert.ToBase64String(saltBytes);
+            var b64Salt = Convert.ToBase64String(saltBytes);
             return b64Salt;
         }
 
-        internal void deleteRole(Role role)
+        internal void DeleteRole(Role role)
         {
             roleAccessor.Delete(role);
         }
 
-        internal IList<User> listUsersByRole(string roleName)
+        internal IList<User> ListUsersByRole(string roleName)
         {
-            return dbManager.SetCommand(@"SELECT Users.*
-                FROM Users 
-                INNER JOIN Users_Roles ON Users.id = Users_Roles.user_id
-                INNER JOIN Roles ON Roles.id = Users_Roles.role_id 
-                WHERE Roles.name like @role_name",
-                dbManager.Parameter("@role_name", roleName)).ExecuteList<User>();
+            var query = from user in Users
+                        join userRole in UsersRoles on user.Id equals userRole.UserId
+                        join role in Roles on userRole.RoleId equals role.Id
+                        where role.Name.Contains(roleName)
+                        select user;
+            return query.ToList();
         }
 
-        internal IList<string> listUserNamesByRole(string roleName)
+        internal IList<string> ListUserNamesByRole(string roleName)
         {
-            return dbManager.SetCommand(@"SELECT Users.name
-                FROM Users 
-                INNER JOIN Users_Roles ON Users.id = Users_Roles.user_id
-                INNER JOIN Roles ON Roles.id = Users_Roles.role_id 
-                WHERE Roles.name like @role_name",
-                dbManager.Parameter("@role_name", roleName)).ExecuteScalarList<string>();
+            var query = from user in Users
+                        join userRole in UsersRoles on user.Id equals userRole.UserId
+                        join role in Roles on userRole.RoleId equals role.Id
+                        where role.Name.Contains(roleName)
+                        select user.Name;
+            return query.ToList();
         }
 
-        internal bool isUserInRole(string userName, string roleName)
+        internal bool IsUserInRole(string userName, string roleName)
         {
-
-            Int32 count = dbManager.SetCommand(@"SELECT count(Users.id)
-                FROM Users 
-                INNER JOIN Users_Roles ON Users.id = Users_Roles.user_id
-                INNER JOIN Roles ON Roles.id = Users_Roles.role_id 
-                WHERE Roles.name like @role_name AND Users.name like @user_name",
-                dbManager.Parameter("@role_name", roleName),
-                dbManager.Parameter("@user_name", userName)).ExecuteScalar<Int32>();
-            return count > 0;
+            var query = from user in Users
+                        join userRole in UsersRoles on user.Id equals userRole.UserId
+                        join role in Roles on userRole.RoleId equals role.Id
+                        where role.Name.Contains(roleName) && user.Name.Contains(userName)
+                        select user;
+            return query.Any();
         }
 
-        internal void removeUserFromRole(string userName, string roleName)
+        internal void RemoveUserFromRole(string userName, string roleName)
         {
-            User user = readUserByName(userName);
-            Role role = readRoleByName(roleName);
-            dbManager.SetCommand("DELETE FROM Users_Roles WHERE user_id = @user_id and role_id = @role_id",
-                dbManager.Parameter("@user_id", user.Id), dbManager.Parameter("@role_id", role.Id))
-                .ExecuteNonQuery();
+            var user = ReadUserByName(userName);
+            var role = ReadRoleByName(roleName);
+
+            var userRole = (from ur in UsersRoles
+                               where ur.UserId == user.Id && ur.RoleId == role.Id
+                               select ur).FirstOrDefault();
+            userRoleAccessor.Delete(userRole);
         }
 
-        internal IList<string> listRoleNamesByUser(string userName)
+        internal IList<string> ListRoleNamesByUser(string userName)
         {
-            return dbManager.SetCommand(@"SELECT Roles.name
-                FROM Roles 
-                INNER JOIN Users_Roles ON Roles.id = Users_Roles.role_id
-                INNER JOIN Users ON Users.id = Users_Roles.user_id
-                WHERE Users.name like @user_name",
-                dbManager.Parameter("@user_name", userName)).ExecuteScalarList<string>();
+            var query = from role in Roles
+                        join userRole in UsersRoles on role.Id equals userRole.RoleId
+                        join user in Users on userRole.UserId equals user.Id 
+                        where user.Name.Contains(userName)
+                        select role.Name;
+            return query.ToList();
         }
 
-        internal IList<string> listUserNamesByRoleAndName(string roleName, string userNameToMatch)
+        internal IList<string> ListUserNamesByRoleAndName(string roleName, string userNameToMatch)
         {
-            return dbManager.SetCommand(@"SELECT Users.name
-                FROM Users 
-                INNER JOIN Users_Roles ON Users.id = Users_Roles.user_id
-                INNER JOIN Roles ON Roles.id = Users_Roles.role_id 
-                WHERE Roles.name like @role_name AND Users.name like @user_name",
-                dbManager.Parameter("@role_name", roleName),
-                dbManager.Parameter("@user_name", userNameToMatch)).ExecuteScalarList<string>();
+            var query = from user in Users
+                        join userRole in UsersRoles on user.Id equals userRole.UserId
+                        join role in Roles on userRole.RoleId equals role.Id
+                        where role.Name.Contains(roleName) && user.Name.Contains(userNameToMatch)
+                        select user.Name;
+            return query.ToList();
         }
 
-        internal IList<string> listAllRolesNames()
+        internal IList<string> ListAllRoleNames()
         {
-            return dbManager.SetCommand("SELECT name FROM Roles").ExecuteScalarList<string>();
+            //return dbManager.SetCommand("SELECT name FROM Roles").ExecuteScalarList<string>();
+            return Roles.Select(r => r.Name).ToList();
         }
 
-        internal void recordUserLoginSuccess(User user)
-        {
-            //throw new NotImplementedException();
-        }
-
-        internal void recordUserLoginFailure(User user)
+        internal void RecordUserLoginSuccess(User user)
         {
             //throw new NotImplementedException();
         }
 
-        internal void createMenu(string name, string path)
+        internal void RecordUserLoginFailure(User user)
         {
-            createMenu(new Menu { Name = name, Path = path });
+            //throw new NotImplementedException();
         }
 
-        internal void createMenu(Menu menu)
+        internal void CreateMenu(string name, string path)
+        {
+            CreateMenu(new Menu { Name = name, Path = path });
+        }
+
+        internal void CreateMenu(Menu menu)
         {
             menuAccessor.Insert(menu);
         }
 
-        internal void recordUserActivity(User dbUser)
+        internal void RecordUserActivity(User dbUser)
         {
             //throw new NotImplementedException();
         }
 
-        internal IList<Role> listAllRoles()
+        internal IList<Role> ListAllRoles()
         {
             return roleAccessor.SelectAll();
         }

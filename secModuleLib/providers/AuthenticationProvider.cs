@@ -195,11 +195,11 @@ namespace lib.providers
         {
             using (SecurityDAO secDAO = new SecurityDAO())
             {
-                User dbUser = secDAO.readUserByName(username);
-                MembershipUser user = secDAO.convertUserToMembershipUser(dbUser, this.Name);
+                User dbUser = secDAO.ReadUserByName(username);
+                MembershipUser user = secDAO.ConvertUserToMembershipUser(dbUser, this.Name);
                 if (userIsOnline)
                 {
-                    secDAO.recordUserActivity(dbUser);
+                    secDAO.RecordUserActivity(dbUser);
                 }
                 return user;
             }
@@ -210,11 +210,11 @@ namespace lib.providers
             using (SecurityDAO secDAO = new SecurityDAO())
             {
                 Int32 id = Convert.ToInt32(providerUserKey);
-                User dbUser = secDAO.readUserById(id);
-                MembershipUser user = secDAO.convertUserToMembershipUser(dbUser, this.Name);
+                User dbUser = secDAO.ReadUserById(id);
+                MembershipUser user = secDAO.ConvertUserToMembershipUser(dbUser, this.Name);
                 if (userIsOnline)
                 {
-                    secDAO.recordUserActivity(dbUser);
+                    secDAO.RecordUserActivity(dbUser);
                 }
                 return user;
             }
@@ -226,13 +226,13 @@ namespace lib.providers
             {
                 using (SecurityDAO secDAO = new SecurityDAO())
                 {
-                    User user = secDAO.readUserByName(username);
+                    User user = secDAO.ReadUserByName(username);
                     if (user == null)
                     {
                         return false;
                     }
                     user.Blocked = false;
-                    secDAO.updateUser(user);
+                    secDAO.UpdateUser(user);
                     //TODO record somewhere into the db that the user got unblocked
                     return true;
                 }
@@ -257,9 +257,9 @@ namespace lib.providers
         {
             using (SecurityDAO secDAO = new SecurityDAO())
             {
-                User dbUser = secDAO.readUserById(Convert.ToInt32(user.ProviderUserKey));
+                User dbUser = secDAO.ReadUserById(Convert.ToInt32(user.ProviderUserKey));
                 dbUser.Blocked = user.IsLockedOut;
-                secDAO.updateUser(dbUser);
+                secDAO.UpdateUser(dbUser);
             }
         }
 
@@ -267,21 +267,21 @@ namespace lib.providers
         {
             using (SecurityDAO secDAO = new SecurityDAO())
             {
-                User user = secDAO.readUserByName(username);
+                User user = secDAO.ReadUserByName(username);
                 if (user == null)
                     return false;
 
-                string hashedPassword = secDAO.encodePassword(password, user.Salt);
+                string hashedPassword = secDAO.EncodePassword(password, user.Salt);
 
                 bool isValid = (!user.Blocked && user.Password == hashedPassword);
                 if (isValid)
                 {
-                    secDAO.recordUserLoginSuccess(user);
+                    secDAO.RecordUserLoginSuccess(user);
                 }
                 else
                 {
                     //TODO record user login attemp failure
-                    secDAO.recordUserLoginFailure(user);
+                    secDAO.RecordUserLoginFailure(user);
                 }
                 return isValid;
             }
@@ -294,10 +294,10 @@ namespace lib.providers
             MembershipUserCollection collection = new MembershipUserCollection();
             using (SecurityDAO secDAO = new SecurityDAO())
             {
-                IList<User> users = secDAO.listUsersByName(usernameToMatch, pageIndex, pageSize);
+                IList<User> users = secDAO.ListUsersByName(usernameToMatch, pageIndex, pageSize);
                 foreach (User user in users)
                 {
-                    collection.Add(secDAO.convertUserToMembershipUser(user, this.Name));
+                    collection.Add(secDAO.ConvertUserToMembershipUser(user, this.Name));
                 }
                 totalRecords = users.Count;
             }

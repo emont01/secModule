@@ -29,13 +29,13 @@ namespace lib.modules
 
             using (var secDAO = new SecurityDAO())
             {
-                secDAO.createRole("admins", "");
+                secDAO.CreateRole("admins", "");
 
-                secDAO.createUser("admin@example.net", "admin", "admin");
-                secDAO.assignRoleToUser("admins", "admin");
+                secDAO.CreateUser("admin@example.net", "admin", "admin");
+                secDAO.AssignRoleToUser("admins", "admin");
 
-                secDAO.createMenu("home", "_private/home.aspx");
-                secDAO.assignRoleToMenu("admins", "_private/home.aspx");
+                secDAO.CreateMenu("home", "_private/home.aspx");
+                secDAO.AssignRoleToMenu("admins", "_private/home.aspx");
             }
         }
 
