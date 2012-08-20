@@ -1,5 +1,4 @@
-﻿using System;
-using System.Web;
+﻿using System.Web;
 using System.Web.UI;
 using lib.i18n;
 
@@ -14,7 +13,7 @@ namespace lib.ioc.di
             var handler = base.GetHandler(context, requestType, virtualPath, path);
             if (handler != null && handler is IPage)
             {
-                IPage page = handler as IPage;
+                var page = handler as IPage;
                 //all the reources will be injected here.
                 page.I18NHelper = new I18NHelper();
             }

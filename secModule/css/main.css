@@ -1,7 +1,7 @@
 ﻿
 span.menu
 {
+    border: 1px solid #CCCCCC;
     display: inline;
     width: 100px;
-    border: 1px solid #CCCCCC;
 }

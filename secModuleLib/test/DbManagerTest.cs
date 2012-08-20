@@ -13,33 +13,35 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
    limitations under the License.
 **/
-using System.Data;
 
+using System.Data;
 using NUnit.Framework;
 using BLToolkit.Data;
 
-
-namespace web
+namespace lib.test
 {
     [TestFixture]
     public class DbManagerTest
     {
-        const string DB_NAME = "secModule";
+        private static string DBName
+        {
+            get { return DbManager.DefaultConfiguration; }
+        }
 
         [Test]
-        public void connectByNameTest()
+        public void ConnectByNameTest()
         {
-            using (DbManager db = new DbManager(DB_NAME))
+            using (var db = new DbManager(DBName))
             {
                 Assert.AreEqual(ConnectionState.Open, db.Connection.State);
             }
         }
 
         [Test]
-        public void defaultConnectionTest()
+        public void DefaultConnectionTest()
         {
-            Assert.AreEqual(DB_NAME, DbManager.DefaultConfiguration);
-            using (DbManager db = new DbManager())
+            Assert.AreEqual(DBName, DbManager.DefaultConfiguration);
+            using (var db = new DbManager())
             {
                 Assert.AreEqual(ConnectionState.Open, db.Connection.State);
             }

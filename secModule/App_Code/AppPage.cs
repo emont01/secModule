@@ -1,11 +1,11 @@
-﻿using lib.ioc.di;
-using System.Web.UI;
+﻿using System.Web.UI;
 using lib.i18n;
+using lib.ioc.di;
 
 namespace web
 {
     /// <summary>
-    /// Default app page
+    ///     Default app page
     /// </summary>
     public class AppPage : Page, IPage
     {

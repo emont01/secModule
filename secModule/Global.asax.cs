@@ -1,45 +1,36 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
-using System.Web.Security;
-using System.Web.SessionState;
 using lib.modules;
 
 namespace web
 {
-    public class Global : System.Web.HttpApplication
+    public class Global : HttpApplication
     {
-
         protected void Application_Start(object sender, EventArgs e)
         {
-
         }
 
         protected void Session_Start(object sender, EventArgs e)
         {
-
         }
 
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
-
         }
 
         protected void Application_AuthenticateRequest(object sender, EventArgs e)
         {
-
         }
 
         protected virtual void Application_Error(Object sender, EventArgs e)
         {
-            string redirectionURL = "";
-            HttpContext context = HttpContext.Current;
+            var redirectionURL = "";
+            var context = HttpContext.Current;
             try
             {
-                Exception exception = context.Server.GetLastError().GetBaseException();
+                var exception = context.Server.GetLastError().GetBaseException();
 
-                if (exception.GetType() == typeof(System.Security.SecurityException))
+                if (exception.GetType() == typeof (System.Security.SecurityException))
                 {
                     if (exception.Message == "Request for principal permission failed.")
                         redirectionURL = WebAppUtil.getAppVirtualPath() + "unauthorized.aspx";
@@ -69,12 +60,10 @@ namespace web
 
         protected void Session_End(object sender, EventArgs e)
         {
-
         }
 
         protected void Application_End(object sender, EventArgs e)
         {
-
         }
     }
 }

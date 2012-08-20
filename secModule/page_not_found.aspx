@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="page_not_found.aspx.cs" Inherits="web.page_not_found" MasterPageFile="~/Template.Master" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="page_not_found.aspx.cs" Inherits="web.PageNotFound" MasterPageFile="~/Template.Master" %>
 
 <%-- 
 Copyright 2011 Eivar Montenegro <e.mont01@gmail.com>

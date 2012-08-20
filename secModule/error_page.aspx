@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="error_page.aspx.cs" Inherits="web.error_page"
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="error_page.aspx.cs" Inherits="web.ErrorPage"
     MasterPageFile="~/Template.Master" %>
 
 <%-- 

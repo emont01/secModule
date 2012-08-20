@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="roles.aspx.cs" Inherits="web._private.roles" MasterPageFile="~/Template.Master" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="roles.aspx.cs" Inherits="web._private.Roles" MasterPageFile="~/Template.Master" %>
 
 <%-- 
 Copyright 2011 Eivar Montenegro <e.mont01@gmail.com>

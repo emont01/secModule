@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="unauthorized.aspx.cs" Inherits="web.unauthorized" MasterPageFile="~/Template.Master" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="unauthorized.aspx.cs" Inherits="web.Unauthorized" MasterPageFile="~/Template.Master" %>
 
 <%-- 
 Copyright 2011 Eivar Montenegro <e.mont01@gmail.com>
