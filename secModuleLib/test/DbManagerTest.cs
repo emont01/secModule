@@ -14,6 +14,7 @@ See the License for the specific language governing permissions and
    limitations under the License.
 **/
 
+using System;
 using System.Data;
 using NUnit.Framework;
 using BLToolkit.Data;
@@ -31,19 +32,18 @@ namespace lib.test
         [Test]
         public void ConnectByNameTest()
         {
-            using (var db = new DbManager(DBName))
+            try
             {
-                Assert.AreEqual(ConnectionState.Open, db.Connection.State);
+                using (var db = new DbManager(DBName))
+                {
+                    Console.WriteLine("Connecting to " + DBName);
+                    Assert.AreEqual(ConnectionState.Open, db.Connection.State);
+                }
             }
-        }
-
-        [Test]
-        public void DefaultConnectionTest()
-        {
-            Assert.AreEqual(DBName, DbManager.DefaultConfiguration);
-            using (var db = new DbManager())
+            catch (Exception ex)
             {
-                Assert.AreEqual(ConnectionState.Open, db.Connection.State);
+                Console.WriteLine(ex);
+                Assert.Fail("Can not connect to: " + DBName, ex);
             }
         }
     }
