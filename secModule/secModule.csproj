@@ -188,6 +188,17 @@ dir $(SolutionDir)*.master /S /B &gt;&gt; projectfiles.txt
 rem create the english messages folder if it not exists
 if not exist $(SolutionDir)locale\en\LC_MESSAGES mkdir $(SolutionDir)locale\en\LC_MESSAGES
 rem create a new .pot from sources
-$(SolutionDir)lib\Gnu\xgettext.exe -k_ --from-code=UTF-8 -LC# --omit-header -o$(SolutionDir)locale\en\LC_MESSAGES\newmessages.pot -fprojectfiles.txt  --force-po</PostBuildEvent>
+$(SolutionDir)lib\Gnu\xgettext.exe -k_ --from-code=UTF-8 -LC# --omit-header -o$(SolutionDir)locale\en\LC_MESSAGES\newmessages.pot -fprojectfiles.txt  --force-po
+rem create messages.po file if it not exists
+if not exist $(SolutionDir)locale\en\LC_MESSAGES\messages.po copy $(SolutionDir)locale\en\LC_MESSAGES\newmessages.pot $(SolutionDir)locale\en\LC_MESSAGES\messages.po
+rem merge .pot file with existing messages.po
+$(SolutionDir)lib\Gnu\msgmerge.exe --backup=none -U $(SolutionDir)locale\en\LC_MESSAGES\messages.po $(SolutionDir)locale\en\LC_MESSAGES\newmessages.pot
+
+rem create a new spanish messages folder it it not exists
+if not exist $(SolutionDir)locale\es\LC_MESSAGES mkdir $(SolutionDir)locale\es\LC_MESSAGES
+rem create messages.po file if it not exists
+if not exist $(SolutionDir)ocale\es\LC_MESSAGES\messages.po copy $(SolutionDir)locale\en\LC_MESSAGES\newmessages.pot $(SolutionDir)locale\es\LC_MESSAGES\messages.po
+rem Merge the newly created .pot file with the Spanish translations:
+$(SolutionDir)lib\Gnu\msgmerge.exe --backup=none -U $(SolutionDir)locale\es\LC_MESSAGES\messages.po $(SolutionDir)locale\en\LC_MESSAGES\newmessages.pot</PostBuildEvent>
   </PropertyGroup>
 </Project>
